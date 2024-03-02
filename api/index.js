@@ -1,7 +1,10 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from  "dotenv";
 dotenv.config();
+import userRouter from './routes/user.route.js';
+import authRouter from './routes/auth.route.js';
+
 
 mongoose
   .connect(process.env.Mongo)
@@ -12,9 +15,19 @@ mongoose
     console.log(err);
   });
 
-const app = express();
+const app = express(); 
+app.use(express.json());
 const port = 3000; 
 
 app.listen(port, () => {
-  console.log("running");
+   console.log(`http://localhost:${port}/`);
 });
+
+
+app.use("/api/user",userRouter); 
+app.use("/api/auth",authRouter); 
+
+app.use((err,req,res,next)=>{
+   const statusCode=err.statusCode||500;
+   const message=err.message||'internal server error';
+})
