@@ -5,14 +5,13 @@ dotenv.config();
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 
-
 mongoose
-  .connect(process.env.Mongo)
+  .connect(process.env.mongo)
   .then(() => {
-    console.log("Connected");
+    console.log("Connected to MongoDB");
   })
   .catch((err) => {
-    console.log(err);
+    console.error("Error connecting to MongoDB:", err);
   });
 
 const app = express(); 
